@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/bin/python2
 
 import math
 import os
@@ -8,44 +8,46 @@ import sys
 
 # Complete the arrayManipulation function below.
 def arrayManipulation(n, queries):
-    # so smart, could sort the list first by ascending order therefore can check overlap
-    arr = sorted(queries,key=lambda x: x[0])
-    maxsofar = 0
-    runningtotal = 0
-    currentpost = arr[0][2]
-    rangeright = arr[0][1]
 
-    for entry in arr:
-        if entry[0] <= rangeright:
-            runningtotal = runningtotal + entry[2]
-            maxsofar = max(maxsofar,runningtotal)
-        else:
-            rangeright = entry[1]
-            runningtotal = runningtotal + entry[2] - currentpost
-            currentpost = entry[2]
-            maxsofar = max(maxsofar,runningtotal)
-    print(maxsofar)
-    return maxsofar
-    
+        arr = sorted(queries,key=lambda x: x[0])
 
+            curr_index = 0
+                bound_index = 0
+                    bound_right = arr[0][1]
+                        runningtotal = 0
+                            maxsofar = 0
 
-if __name__ == '__main__':
-    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+                                for entry in arr:
+                                            if entry[0] <= bound_right:
+                                                            runningtotal = runningtotal + entry[2]
+                                                                        maxsofar = max(maxsofar, runningtotal)
+                                                                                else:
+                                                                                                while bound_index < curr_index and arr[bound_index][1] < entry[0]:
+                                                                                                                    runningtotal = runningtotal - arr[bound_index][2]
+                                                                                                                                    bound_index = bound_index + 1
+                                                                                                                                                bound_right = arr[bound_index][1]
+                                                                                                                                                            runningtotal = runningtotal + entry[2]
+                                                                                                                                                                        maxsofar = max(maxsofar, runningtotal)
+                                                                                                                                                                                curr_index = curr_index + 1
+                                                                                                                                                                                    return maxsofar
 
-    nm = input().split()
+                                                                                                                                                                                if __name__ == '__main__':
+                                                                                                                                                                                        fptr = open(os.environ['OUTPUT_PATH'], 'w')
 
-    n = int(nm[0])
+                                                                                                                                                                                            nm = input().split()
 
-    m = int(nm[1])
+                                                                                                                                                                                                n = int(nm[0])
 
-    queries = []
+                                                                                                                                                                                                    m = int(nm[1])
 
-    for _ in range(m):
-        queries.append(list(map(int, input().rstrip().split())))
+                                                                                                                                                                                                        queries = []
 
-    result = arrayManipulation(n, queries)
+                                                                                                                                                                                                            for _ in range(m):
+                                                                                                                                                                                                                        queries.append(list(map(int, input().rstrip().split())))
 
-    fptr.write(str(result) + '\n')
+                                                                                                                                                                                                                            result = arrayManipulation(n, queries)
 
-    fptr.close()
+                                                                                                                                                                                                                                fptr.write(str(result) + '\n')
+
+                                                                                                                                                                                                                                    fptr.close()
 
